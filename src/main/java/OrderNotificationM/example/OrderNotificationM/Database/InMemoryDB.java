@@ -19,10 +19,10 @@ public class InMemoryDB extends Database{
                 new Product("2", "Smartphone", "Vendor B", 599.99, Category.ELECTRONICS)
 
         )));
-        productList.put(Category.DESERT, new ArrayList<>(Arrays.asList(
-                new Product("3", "Chocolates", "Vendor C", 5.99, Category.DESERT),
-                new Product("5", "Cookies", "Vendor E", 3.49, Category.DESERT),
-                new Product("8","Dar Chocolate","Vendor Z", 10.0, Category.DESERT)
+        productList.put(Category.DESSERTS, new ArrayList<>(Arrays.asList(
+                new Product("3", "Chocolates", "Vendor C", 5.99, Category.DESSERTS),
+                new Product("5", "Cookies", "Vendor E", 3.49, Category.DESSERTS),
+                new Product("8","Dar Chocolate","Vendor Z", 10.0, Category.DESSERTS)
         )));
         productList.put(Category.BOOKS, new ArrayList<>(Arrays.asList(
                 new Product("6", "Java Programming", "Vendor F", 49.99, Category.BOOKS),
