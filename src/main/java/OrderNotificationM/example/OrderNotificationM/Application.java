@@ -11,7 +11,7 @@ public class Application {
 
         SpringApplication.run(Application.class, args);
         InMemoryDB inMemoryDB = new InMemoryDB();
-        System.out.println(inMemoryDB.getProducts());
+        inMemoryDB.getProducts();
     }
 
 }
