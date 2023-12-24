@@ -4,5 +4,5 @@ public enum Category {
     ELECTRONICS,
     CLOTHING,
     BOOKS,
-    DESERT,
+    DESSERTS,
 }
