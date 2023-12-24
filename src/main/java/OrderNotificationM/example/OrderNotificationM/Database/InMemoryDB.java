@@ -2,12 +2,16 @@ package OrderNotificationM.example.OrderNotificationM.Database;
 
 import OrderNotificationM.example.OrderNotificationM.Category;
 import OrderNotificationM.example.OrderNotificationM.Product;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
+@RestController
+@RequestMapping("/products")
 public class InMemoryDB extends Database{
     public InMemoryDB() {
         productList.put(Category.ELECTRONICS, new ArrayList<>(Arrays.asList(
@@ -27,6 +31,7 @@ public class InMemoryDB extends Database{
     }
 
     @Override
+    @GetMapping
     public String getProducts() {
         StringBuilder productsInfo = new StringBuilder();
 
