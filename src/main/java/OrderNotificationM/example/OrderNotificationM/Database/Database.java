@@ -11,7 +11,11 @@ import java.util.Map;
 
 public abstract class Database {
     Map<Category, List<Product>> productList = new HashMap<>();
+
+
     List<Customer> customerList = new ArrayList<>();
     public abstract String getProducts();
     public abstract String getNotifications();
+
+
 }
