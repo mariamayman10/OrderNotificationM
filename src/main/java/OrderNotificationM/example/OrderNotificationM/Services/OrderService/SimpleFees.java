@@ -1,8 +1,12 @@
 package OrderNotificationM.example.OrderNotificationM.Services.OrderService;
 
+import OrderNotificationM.example.OrderNotificationM.Models.Customer;
+
+import java.util.List;
+
 public class SimpleFees implements FeesCalculationStrategy{
     @Override
-    public double calculateFees() {
-        return 0;
+    public void calculateFees(List<Customer> customerList, double fee) {
+        customerList.getFirst().setBalance(customerList.getFirst().getBalance() - fee);
     }
 }

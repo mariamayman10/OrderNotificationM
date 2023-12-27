@@ -9,6 +9,10 @@ public class CompoundOrder extends Order {
     List<SimpleOrder> simpleOrderList = new ArrayList<>();
     @Override
     public String printOrder() {
-        return null;
+        StringBuilder response = new StringBuilder();
+        for(SimpleOrder simpleOrder:simpleOrderList){
+            response.append(simpleOrder.printOrder());
+        }
+        return String.valueOf(response);
     }
 }

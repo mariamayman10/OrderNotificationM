@@ -13,7 +13,13 @@ public class IdentityManager {
         this.dbService = dbService;
     }
     public Customer doesExist(String email) {
-       return null;
+
+        for (Customer customer : dbService.getCustomers()) {
+            if (customer.getEmail().equals(email)) {
+                return customer;
+            }
+        }
+        return null;
     }
     public Customer validate(String email, String password){
         for (Customer customer : dbService.getCustomers()) {

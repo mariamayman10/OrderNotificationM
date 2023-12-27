@@ -1,16 +1,11 @@
 package OrderNotificationM.example.OrderNotificationM.Services.AuthenticationService;
 
 import OrderNotificationM.example.OrderNotificationM.Models.Customer;
-import OrderNotificationM.example.OrderNotificationM.Services.DBService.DBService;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
-
+@Service
 public abstract class AuthenticationService {
     public IdentityManager identityManager;
-    public void setDBIdentityManager(DBService dbService) {
-        this.identityManager = new IdentityManager(dbService);
-    }
-
     public abstract Customer logIn(String email, String password);
-    public abstract boolean signUp();
+    public abstract boolean signUp(SignUpRequest request);
 }

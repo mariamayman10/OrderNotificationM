@@ -1,8 +1,14 @@
 package OrderNotificationM.example.OrderNotificationM.Services.OrderService;
 
+import OrderNotificationM.example.OrderNotificationM.Models.Customer;
+
+import java.util.List;
+
 public class CompoundFees implements FeesCalculationStrategy{
     @Override
-    public double calculateFees() {
-        return 0;
+    public void calculateFees(List<Customer> customerList, double fee) {
+        for(Customer c: customerList){
+            c.setBalance(c.getBalance() - fee);
+        }
     }
 }

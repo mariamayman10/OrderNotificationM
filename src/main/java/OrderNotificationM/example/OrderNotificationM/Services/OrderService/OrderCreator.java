@@ -6,7 +6,14 @@ import OrderNotificationM.example.OrderNotificationM.Models.Product;
 
 import java.util.List;
 
-public abstract class OrderCreator {
-    private final OrderServiceImp orderServiceImp = new OrderServiceImp();
-    public abstract Order createOrder(List<Customer> customerList, List<Product> productList);
+public class OrderCreator extends OrderService{
+    public Order createOrder(String type){
+        if(type == "simple"){
+            return new SimpleOrder();
+        }
+        else if(type == "compound"){
+            return new CompoundOrder();
+        }
+        else return null;
+    }
 }
