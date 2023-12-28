@@ -16,17 +16,20 @@ public class EmailNotification implements NotificationSendingStrategy {
         Map<Customer, Product> placeholderValues = notification.getPlaceholderValues();
 
         for (Map.Entry<Customer, Product> entry : placeholderValues.entrySet()) {
+            String finalContent = content;
             Customer customer = entry.getKey();
             Product product = entry.getValue();
 
             String customerName = customer.getName();
             String productName = product.getName();
 
-            content = content.replace("{x}", customerName);
-            content = content.replace("{y}", productName);
+            finalContent = content.replace("{x}", customerName);
+            finalContent = content.replace("{y}", productName);
+
+            System.out.println(finalContent);
         }
 
-        System.out.println(content);
+
 
         return notification;
     }
