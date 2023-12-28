@@ -33,5 +33,6 @@ public class Customer {
         this.language = language;
     }
     public Customer(){}
+    public Language getLanguage(){return this.language;}
 
 }

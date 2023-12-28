@@ -3,11 +3,9 @@ package OrderNotificationM.example.OrderNotificationM.Services.NotificationServi
 import OrderNotificationM.example.OrderNotificationM.Models.Customer;
 import OrderNotificationM.example.OrderNotificationM.Models.Notification;
 import OrderNotificationM.example.OrderNotificationM.Models.NotificationType;
+import org.springframework.stereotype.Service;
 
-public class SMSNotification implements NotificationSendingStrategy {
-
-    @Override
-    public Notification sendNotification(Notification notification) {
-        return null;
-    }
+@Service
+public interface NotificationSendingStrategy {
+    public Notification sendNotification(Notification notification);
 }
