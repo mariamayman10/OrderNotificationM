@@ -1,9 +1,8 @@
 package OrderNotificationM.example.OrderNotificationM.Services.OrderService;
 
-import OrderNotificationM.example.OrderNotificationM.Models.Customer;
+import OrderNotificationM.example.OrderNotificationM.Models.Order;
 
-import java.util.List;
 
 public interface FeesCalculationStrategy {
-    public void calculateFees(List<Customer> customerList, double fee);
+    void calculateFees(Order order);
 }

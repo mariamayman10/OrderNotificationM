@@ -2,47 +2,15 @@ package OrderNotificationM.example.OrderNotificationM.Services.AuthenticationSer
 
 import OrderNotificationM.example.OrderNotificationM.Models.*;
 import OrderNotificationM.example.OrderNotificationM.Repos.UserRepo;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import java.util.Date;
-
-import lombok.Setter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.List;
-
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 public class LocalAuthentication extends AuthenticationService {
     @Override
-    public Customer logIn(String email, String password) {
-
-        // Retrieve the customer from the identity manager
-        Customer customer = identityManager.validate(email, password);
-
-        // Generate JWT token
-        String jwtToken = generateJwtToken(customer.getEmail());
-
-        // Optionally, you can store the token in the Customer object or return it in some way
-        customer.setJwtToken(jwtToken);
-
-        return customer;
-    }
-
-    private String generateJwtToken(String email) {
-        // Define JWT claims
-       // String secretKey = "your-secret-key"; // Replace with a secure secret key
-        long expirationTimeInMs = 3600000; // 1 hour
-
-        return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expirationTimeInMs))
-                .compact();
+    public Customer logIn(LoginRequest request) {
+        return identityManager.validate(request.getEmail(), request.getPassword());
     }
     @Override
     public boolean signUp(SignUpRequest request) {
-        //data from the SignUpRequest
         String name = request.getName();
         String region = request.getRegion();
         double balance = request.getBalance();
@@ -53,34 +21,24 @@ public class LocalAuthentication extends AuthenticationService {
         String language_uppercase = language.toUpperCase();
         Region regionEnum;
         Language languageEnum;
-        if(!isExistRegion(region_uppercase)){
+        if(!isExistRegion(region_uppercase))
             return false;
-        }
-        else {
-             regionEnum = Region.valueOf(region_uppercase);
-        }
-        if(!isVExistLanguage(language_uppercase)){
+        else
+            regionEnum = Region.valueOf(region_uppercase);
+        if(!isVExistLanguage(language_uppercase))
             return false;
-        }
-        else {
-             languageEnum = Language.valueOf(language_uppercase);
-        }
+        else
+            languageEnum = Language.valueOf(language_uppercase);
 
-        if(identityManager.doesExist(email)!=null){
+        if(identityManager.getCustomer(email)!=null)
             return false;
-        }
-        // Validate inputs
-        if (!isValidEmail(email)) {
+        if (!isValidEmail(email))
             return false;
-        }
-        if (!isValidStrongPassword(password)) {
+        if (!isValidStrongPassword(password))
             return false;
-        }
 
-        Customer newCustomer = new Customer(email, password, name, regionEnum, balance, languageEnum);
-        // Add the new customer to the list
-
-        UserRepo.addCustomer(newCustomer);
+        Customer newCustomer = new Customer(name, regionEnum, balance, password, email, languageEnum);
+        UserRepo.getCustomerList().add(newCustomer);
         return true;
     }
 
@@ -88,8 +46,6 @@ public class LocalAuthentication extends AuthenticationService {
         if (email == null || email.isEmpty()) {
             return false;
         }
-
-        // Regular expression for a basic email format
         String emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$";
 
         Pattern pattern = Pattern.compile(emailRegex);

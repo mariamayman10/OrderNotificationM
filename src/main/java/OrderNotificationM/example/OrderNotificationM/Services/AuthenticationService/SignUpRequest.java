@@ -1,5 +1,7 @@
 package OrderNotificationM.example.OrderNotificationM.Services.AuthenticationService;
 
+import OrderNotificationM.example.OrderNotificationM.Models.Language;
+import OrderNotificationM.example.OrderNotificationM.Models.Region;
 import lombok.Getter;
 import lombok.Setter;
 

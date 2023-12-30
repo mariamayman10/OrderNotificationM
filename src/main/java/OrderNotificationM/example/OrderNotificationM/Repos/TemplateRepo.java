@@ -7,10 +7,14 @@ import lombok.Getter;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class TemplateRepo {
+    @Getter
+    static Map<NotificationTemplate, Integer> templateCount = new HashMap<>();
     @Getter
     static List<NotificationTemplate> templateList = new ArrayList<>();
     public TemplateRepo(){

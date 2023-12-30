@@ -1,15 +1,20 @@
 package OrderNotificationM.example.OrderNotificationM.Models;
 
-import OrderNotificationM.example.OrderNotificationM.Models.Notification;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Customer {
+    List<Order> orderList = new ArrayList<>();
     List<Notification> notificationList = new ArrayList<>();
     private String name;
     private Region region;
@@ -17,22 +22,19 @@ public class Customer {
     private String password;
     private String email;
     private Language language;
-    private String jwtToken;
-
 
     public Customer(String email, String password) {
         this.email = email;
         this.password = password;
     }
-    public  Customer(String email, String password, String name, Region region, double balance, Language language){
-        this.email = email;
-        this.password = password;
+    public Customer(String name, Region region, double balance, String password, String email, Language lang){
         this.name = name;
         this.region = region;
         this.balance = balance;
-        this.language = language;
+        this.password = password;
+        this.email = email;
+        this.language = lang;
     }
-    public Customer(){}
-    public Language getLanguage(){return this.language;}
+
 
 }

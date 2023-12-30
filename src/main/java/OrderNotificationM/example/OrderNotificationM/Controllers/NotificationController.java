@@ -1,24 +1,20 @@
 package OrderNotificationM.example.OrderNotificationM.Controllers;
 
-import OrderNotificationM.example.OrderNotificationM.Models.Notification;
+import OrderNotificationM.example.OrderNotificationM.Models.NotificationType;
+import OrderNotificationM.example.OrderNotificationM.Models.Product;
 import OrderNotificationM.example.OrderNotificationM.Services.NotificationService.NotificationService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import jakarta.annotation.PostConstruct;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
 
-import java.util.List;
 
 @RestController
-@RequestMapping("/notifications")
 public class NotificationController {
     NotificationService notificationService;
-    public NotificationController() {
-        notificationService = new NotificationService();
+    public NotificationController(){
+        this.notificationService = new NotificationService();
     }
-    @PostMapping("/send")
-    public ResponseEntity<String> sendNotification(){
-        notificationService.sendNotification();
-        return ResponseEntity.ok("Notification sent successfully!");
+    public String createNotification(NotificationType type, Map<Product, Integer> productList, String email){
+        return notificationService.createNotification(type, productList, email);
     }
-
 }

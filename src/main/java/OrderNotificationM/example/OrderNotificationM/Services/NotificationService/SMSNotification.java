@@ -7,7 +7,7 @@ import OrderNotificationM.example.OrderNotificationM.Models.NotificationType;
 public class SMSNotification implements NotificationSendingStrategy {
 
     @Override
-    public Notification sendNotification(Notification notification) {
-        return null;
+    public boolean sendNotification(Notification notification) {
+        return true;
     }
 }
