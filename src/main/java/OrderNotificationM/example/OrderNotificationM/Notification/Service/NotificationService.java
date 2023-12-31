@@ -1,8 +1,7 @@
 package OrderNotificationM.example.OrderNotificationM.Notification.Service;
 
 import OrderNotificationM.example.OrderNotificationM.Notification.Models.*;
-import OrderNotificationM.example.OrderNotificationM.Notification.Repo.*;
-import OrderNotificationM.example.OrderNotificationM.Database.Service.IdentityManager;
+import OrderNotificationM.example.OrderNotificationM.Database.Service.DBManager;
 import OrderNotificationM.example.OrderNotificationM.Database.Models.Product;
 import OrderNotificationM.example.OrderNotificationM.Customer.Models.Customer;
 import lombok.Setter;
@@ -18,15 +17,15 @@ import java.util.*;
 @Service
 @Setter
 public class NotificationService {
-    private static IdentityManager identityManager;
+    private static DBManager DBManager;
     NotificationSendingStrategy notificationSendingStrategy = new EmailNotification();
 
-    public static void setIdentityManager(IdentityManager identityManager) {
-        NotificationService.identityManager = identityManager;
+    public static void setDBManager(DBManager DBManager) {
+        NotificationService.DBManager = DBManager;
     }
 
     public String createNotification(NotificationType type, Map<Product, Integer> productList, String email){
-        Customer customer = identityManager.getCustomer(email);
+        Customer customer = DBManager.getCustomer(email);
         Notification notification = new Notification();
         // get product names
         List<String> productNames = new ArrayList<>();
@@ -38,19 +37,22 @@ public class NotificationService {
                 new AbstractMap.SimpleEntry<>(customer.getName(), productNames);
         notification.setPlaceholderValues(placeholderValues);
         // set template
-        for(NotificationTemplate template: TemplateRepo.getTemplateList()){
+        for(NotificationTemplate template: DBManager.getTemplates()){
             if(template.getType() == type && customer.getLanguage() == template.getLanguage())
                 notification.setTemplate(template);
         }
-        NotificationsRepo.getNotificationQueue().add(notification);
-        TemplateRepo.getTemplateCount().merge(notification.getTemplate(), 1, Integer::sum);
-        customer.getNotificationList().add(notification);
+        notification = setNotificationContent(notification);
+
         LocalDateTime currentDateTime = LocalDateTime.now();
         notification.setTimeStamp(Time.valueOf(currentDateTime.toLocalTime()));
         notification.setNotificationStatus(NotificationStatus.PENDING);
-        return setNotificationContent(notification);
+
+        DBManager.getNotifications().add(notification);
+        DBManager.getTemplatesCount().merge(notification.getTemplate(), 1, Integer::sum);
+        customer.getNotificationList().add(notification);
+        return notification.getFinalContent();
     }
-    public String setNotificationContent(Notification notification){
+    public Notification setNotificationContent(Notification notification){
         // create content
         String content = notification.getTemplate().getContent();
         Map.Entry<String, List<String>> placeholders = notification.getPlaceholderValues();
@@ -58,7 +60,7 @@ public class NotificationService {
         notification.setFinalContent(finalContent);
         // send notification
         notificationSendingStrategy.sendNotification(notification);
-        return finalContent;
+        return notification;
     }
     private static String getString(Map.Entry<String, List<String>> placeholders, String content) {
         String customerName = placeholders.getKey();

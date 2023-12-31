@@ -16,10 +16,10 @@ import java.util.*;
 @Setter
 @Service
 public abstract class DBService {
-    protected CustomerRepo userRepo = new CustomerRepo();
+    protected CustomerRepo customerRepo = new CustomerRepo();
     protected ProductRepo productRepo = new ProductRepo();
     protected TemplateRepo templateRepo = new TemplateRepo();
-    protected Queue<Notification> notificationQueue = new LinkedList<>();
+    protected Queue<Notification> notificationQueueObj = new ArrayDeque<>();
     public abstract String getStringProducts();
     public abstract String mostNotifiedCustomer();
     public abstract String mostUsedTemplate();

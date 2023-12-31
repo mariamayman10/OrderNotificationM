@@ -17,11 +17,11 @@ public class DBController {
     private void init(){
         DBServiceCreator dbServiceCreator = new DBServiceCreator();
         dbService = dbServiceCreator.createDBService("inMemory");
-        IdentityManager identityManager = new IdentityManager();
-        identityManager.setDbService(dbService);
-        AuthenticationService.setIdentityManager(identityManager);
-        OrderService.setIdentityManager(identityManager);
-        NotificationService.setIdentityManager(identityManager);
+        DBManager DBManager = new DBManager();
+        DBManager.setDbService(dbService);
+        AuthenticationService.setIdentityManager(DBManager);
+        OrderService.setIdentityManager(DBManager);
+        NotificationService.setDBManager(DBManager);
     }
     @GetMapping("/products")
     public String getProducts(){

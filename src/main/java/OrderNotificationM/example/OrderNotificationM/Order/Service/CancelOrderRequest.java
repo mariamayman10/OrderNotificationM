@@ -4,6 +4,6 @@ import lombok.Getter;
 
 @Getter
 public class CancelOrderRequest {
-    private int orderID;
+    private int orderId;
     private String email;
 }

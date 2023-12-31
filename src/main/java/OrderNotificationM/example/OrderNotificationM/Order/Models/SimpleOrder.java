@@ -12,6 +12,12 @@ public class SimpleOrder extends Order {
     @Override
     public String printOrder() {
         String ret = "";
+        ret += "Customer Name: ";
+        ret += this.getOwner().getName();
+        ret += '\n';
+        ret += "OrderID: ";
+        ret += this.getOrderID();
+        ret += '\n';
         for(Map.Entry<Product, Integer>entry: getProductList().entrySet()){
          ret += "Product: ";
          ret += entry.getKey().getName();

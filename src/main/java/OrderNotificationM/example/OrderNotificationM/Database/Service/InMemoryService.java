@@ -3,20 +3,23 @@ package OrderNotificationM.example.OrderNotificationM.Database.Service;
 import OrderNotificationM.example.OrderNotificationM.Notification.Models.Notification;
 import OrderNotificationM.example.OrderNotificationM.Notification.Models.NotificationTemplate;
 import OrderNotificationM.example.OrderNotificationM.Notification.Repo.TemplateRepo;
+import OrderNotificationM.example.OrderNotificationM.Notification.Repo.NotificationsRepo;
 import OrderNotificationM.example.OrderNotificationM.Customer.Repo.CustomerRepo;
 import OrderNotificationM.example.OrderNotificationM.Customer.Models.Customer;
 import OrderNotificationM.example.OrderNotificationM.Database.Repo.*;
 import OrderNotificationM.example.OrderNotificationM.Database.Models.*;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-
+@Service
 public class InMemoryService extends DBService{
     @Override
     public String getStringProducts() {
         StringBuilder productsInfo = new StringBuilder();
-        for (Map.Entry<Category, List<Product>> entry : getProductRepo().getProductList().entrySet()) {
+        for (Map.Entry<Category, List<Product>> entry : ProductRepo.getProductList().entrySet()) {
             Category category = entry.getKey();
             List<Product> products = entry.getValue();
 
@@ -41,7 +44,9 @@ public class InMemoryService extends DBService{
             if(c.getNotificationList().size() > ret.getNotificationList().size())
                 ret = c;
         }
-        return ret.getEmail();
+        String strRet = "";
+        strRet += "Most Notified customer is " + ret.getName() + ", whose email " + ret.getEmail();
+        return strRet;
     }
     @Override
     public String mostUsedTemplate(){
@@ -57,7 +62,7 @@ public class InMemoryService extends DBService{
     }
     @Override
     public int getAvailableQuantity(Product product){
-        for (Map.Entry<Category, List<Product>> entry: productRepo.getProductList().entrySet()){
+        for (Map.Entry<Category, List<Product>> entry: ProductRepo.getProductList().entrySet()){
             for(Product p: entry.getValue()){
                 if(p == product)return p.getQuantity();
             }
@@ -66,7 +71,7 @@ public class InMemoryService extends DBService{
     }
     @Override
     public Product getProduct(String serialN){
-        for (Map.Entry<Category, List<Product>> entry: productRepo.getProductList().entrySet()){
+        for (Map.Entry<Category, List<Product>> entry: ProductRepo.getProductList().entrySet()){
             for(Product p: entry.getValue()){
                 if(p.getSerialNumber() == serialN)return p;
             }
@@ -76,7 +81,7 @@ public class InMemoryService extends DBService{
     @Override
     public void updateProducts(Map<Product, Integer> products){
         for(Map.Entry<Product, Integer> entry: products.entrySet()){
-            for(Map.Entry<Category, List<Product>> entry1: productRepo.getProductList().entrySet()){
+            for(Map.Entry<Category, List<Product>> entry1: ProductRepo.getProductList().entrySet()){
                 if(entry.getKey().getCategory() == entry1.getKey()){
                     for(Product p: entry1.getValue()){
                         if(p.getSerialNumber() == entry.getKey().getSerialNumber()){
@@ -89,14 +94,14 @@ public class InMemoryService extends DBService{
     }
     @Override
     public Customer getCustomer(String email){
-        for(Customer c: userRepo.getCustomerList()){
+        for(Customer c: CustomerRepo.getCustomerList()){
             if(Objects.equals(c.getEmail(), email))return c;
         }
         return null;
     }
     @Override
     public Customer validate(String email, String password){
-        for (Customer customer : userRepo.getCustomerList()) {
+        for (Customer customer : CustomerRepo.getCustomerList()) {
             if (customer.getEmail().equals(email) && customer.getPassword().equals(password)) {
                 return customer;
             }
@@ -107,7 +112,7 @@ public class InMemoryService extends DBService{
     @Override
     public String getStringNotificationQueue() {
         StringBuilder notifications = new StringBuilder();
-        for (Notification n : getNotificationQueue()) {
+        for (Notification n : NotificationsRepo.getNotificationQueue()) {
             notifications.append(n.getFinalContent());
             notifications.append("\n");
         }

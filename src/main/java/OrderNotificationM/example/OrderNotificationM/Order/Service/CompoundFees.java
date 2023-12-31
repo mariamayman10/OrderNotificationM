@@ -14,6 +14,7 @@ public class CompoundFees implements FeesCalculationStrategy{
     @Override
     public void calculateFees(Order order) {
         int index = 0;
+        order.setTotalPrice(-1);
         for(Order simple: ((CompoundOrder)order).getSimpleOrderList()){
             Map<Product, Integer> productList = simple.getProductList();
             double totalPrice = 0;

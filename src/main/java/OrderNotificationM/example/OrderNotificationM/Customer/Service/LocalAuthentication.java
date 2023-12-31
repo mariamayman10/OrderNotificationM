@@ -1,13 +1,13 @@
 package OrderNotificationM.example.OrderNotificationM.Customer.Service;
 
 import OrderNotificationM.example.OrderNotificationM.Customer.Models.*;
-import OrderNotificationM.example.OrderNotificationM.Customer.Repo.CustomerRepo;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 public class LocalAuthentication extends AuthenticationService {
     @Override
     public Customer logIn(LoginRequest request) {
-        return identityManager.validate(request.getEmail(), request.getPassword());
+        return DBManager.validate(request.getEmail(), request.getPassword());
     }
     @Override
     public boolean signUp(SignUpRequest request) {
@@ -30,7 +30,7 @@ public class LocalAuthentication extends AuthenticationService {
         else
             languageEnum = Language.valueOf(language_uppercase);
 
-        if(identityManager.getCustomer(email)!=null)
+        if(DBManager.getCustomer(email)!=null)
             return false;
         if (!isValidEmail(email))
             return false;
@@ -38,7 +38,7 @@ public class LocalAuthentication extends AuthenticationService {
             return false;
 
         Customer newCustomer = new Customer(name, regionEnum, balance, password, email, languageEnum);
-        CustomerRepo.getCustomerList().add(newCustomer);
+        DBManager.getCustomers().add(newCustomer);
         return true;
     }
 

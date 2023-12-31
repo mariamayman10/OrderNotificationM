@@ -1,5 +1,6 @@
 package OrderNotificationM.example.OrderNotificationM.Order.Models;
 
+import OrderNotificationM.example.OrderNotificationM.Customer.Models.Customer;
 import OrderNotificationM.example.OrderNotificationM.Database.Models.Product;
 import OrderNotificationM.example.OrderNotificationM.Order.Service.FeesCalculationStrategy;
 import lombok.Getter;
@@ -17,6 +18,7 @@ public abstract class Order {
     private double totalPrice;
     private FeesCalculationStrategy feesCalculationStrategy;
     private int orderID;
-    private final Time timeStamp = new Time(0);
+    private Customer owner;
+    private Time timeStamp = new Time(0);
     public abstract String printOrder();
 }

@@ -4,6 +4,6 @@ import lombok.Getter;
 
 @Getter
 public class PrintOrderRequest {
-    int OrderId;
-    String email;
+    private int orderId;
+    private String email;
 }

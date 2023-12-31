@@ -19,9 +19,12 @@ public class OrderController {
     public String placeOrder(@RequestBody PlaceOrderRequest placeOrderRequest){
         Order o = orderService.createOrder(placeOrderRequest);
         if(o != null){
+            String returnString = "";
+            returnString += "Order ID: " + o.getOrderID() + '\n';
             String email = placeOrderRequest.getData().get(0).getKey();
             NotificationController notificationController = new NotificationController();
-            return notificationController.createNotification(NotificationType.ORDER_PLACED, o.getProductList(), email);
+            returnString += notificationController.createNotification(NotificationType.ORDER_PLACED, o.getProductList(), email);
+            return returnString;
         }
         else return "Order couldn't be placed";
     }
@@ -39,13 +42,13 @@ public class OrderController {
         }
         else return "No such a placed order to ship";
     }
-    @PostMapping("/cancel")
-    public String cancelOrder(@RequestBody CancelOrderRequest cancelOrderRequest){
-        boolean cancelledOrder = orderService.cancelOrder(cancelOrderRequest);
-        if(cancelledOrder){
-            return "Order has been cancelled successfully";
-        }
-        else return "Couldn't cancel order";
+    @PostMapping("/cancelShipment")
+    public String cancelOrderShipment(@RequestBody CancelOrderRequest cancelOrderRequest){
+        return orderService.cancelOrderShipment(cancelOrderRequest);
+    }
+    @PostMapping("/cancelPlacement")
+    public String cancelOrderPlacement(@RequestBody CancelOrderRequest cancelOrderRequest){
+        return orderService.cancelOrderPlacement(cancelOrderRequest);
     }
     @GetMapping("/print")
     public String printOrder(@RequestBody PrintOrderRequest printOrderRequest){

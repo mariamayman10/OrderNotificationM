@@ -36,6 +36,4 @@ public class Customer {
         this.email = email;
         this.language = lang;
     }
-
-
 }

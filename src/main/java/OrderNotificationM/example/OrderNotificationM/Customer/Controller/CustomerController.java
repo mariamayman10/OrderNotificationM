@@ -19,7 +19,10 @@ public class CustomerController {
         return authenticationService.logIn(loginRequest);
     }
     @PostMapping("/signup")
-    public boolean signUp(@RequestBody SignUpRequest SignUprequest) {
-       return authenticationService.signUp(SignUprequest);
+    public String signUp(@RequestBody SignUpRequest SignUprequest) {
+       if(authenticationService.signUp(SignUprequest)){
+           return "Signed Up successfully";
+       }
+       else return "Couldn't sign up";
     }
 }
